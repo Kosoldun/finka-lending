@@ -1,0 +1,31 @@
+/* ФИНКА — стили служебных страниц: «Политика конфиденциальности» и 404. */
+.page-body{display:flex;flex-direction:column;min-height:100vh}
+.page-main{flex:1;padding:48px 0}
+.legal-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:clamp(22px,5vw,42px);box-shadow:var(--shadow)}
+.legal-card h1{font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.2;margin:0 0 10px}
+.legal-card h2{font-family:var(--font-display);font-size:1.3rem;margin:30px 0 10px;color:var(--navy-2)}
+.legal-meta{color:var(--muted);font-size:.9rem;margin-bottom:28px}
+.legal-card ul{padding-left:22px}
+.legal-card li{margin:6px 0}
+.legal-card address{font-style:normal}
+/* ---------- 404 ---------- */
+.error-main{flex:1;display:grid;place-items:center;padding:56px 0;position:relative;background:linear-gradient(150deg,var(--navy) 0%,var(--navy-2) 52%,#1E4A46 100%);color:var(--paper);overflow:hidden}
+.error-main::before{content:"";position:absolute;inset:-20%;background:radial-gradient(600px 400px at 18% 22%,rgba(46,125,50,.35),transparent 60%),radial-gradient(520px 420px at 82% 18%,rgba(227,179,65,.22),transparent 60%),radial-gradient(700px 500px at 60% 90%,rgba(46,119,201,.18),transparent 60%);animation:error-aurora 16s ease-in-out infinite alternate;pointer-events:none}
+.error-main::after{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent 0 31px,rgba(250,247,240,.045) 31px 32px);pointer-events:none}
+@keyframes error-aurora{from{transform:translate(-2%,-1%) scale(1)}to{transform:translate(2%,2%) scale(1.06)}}
+.error-card{position:relative;z-index:1;width:min(760px,calc(100% - 32px));background:rgba(250,247,240,.97);color:var(--ink);border:1px solid rgba(227,179,65,.4);border-radius:22px;padding:clamp(26px,6vw,52px);box-shadow:0 30px 80px rgba(0,0,0,.35);text-align:center}
+.error-code{font-family:var(--font-display);font-size:clamp(4.5rem,18vw,8rem);line-height:.9;color:var(--navy-2);margin:0 0 8px;position:relative;display:inline-block}
+.error-code::after{content:"";position:absolute;left:8%;right:8%;bottom:-6px;height:5px;border-radius:4px;background:linear-gradient(90deg,var(--green),var(--gold-2))}
+.error-card .eyebrow{margin:18px 0 10px}
+.error-card h1{font-size:clamp(1.6rem,5vw,2.4rem);line-height:1.2;margin:0 0 14px}
+.error-lead{color:var(--muted);max-width:520px;margin:0 auto 26px}
+.error-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:26px}
+.quick{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:26px}
+.quick a{padding:9px 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--navy-2);text-decoration:none;font-weight:700;font-size:.9rem;min-height:44px;display:inline-flex;align-items:center}
+.quick a:hover{border-color:var(--green);color:var(--green-2)}
+.error-contacts{display:grid;gap:10px;padding-top:22px;border-top:1px dashed var(--line);font-size:.95rem}
+.error-contacts a{font-weight:800;text-decoration:none}
+.error-contacts span{color:var(--muted)}
+@media (max-width:560px){
+  .error-actions .btn{width:100%}
+}
