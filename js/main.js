@@ -28,15 +28,19 @@
   }, { threshold: 0.12 });
   $$('.reveal').forEach(el => rev.observe(el));
 
-  /* анимация цифр */
+  /* анимация цифр — ИСПРАВЛЕНО: отсчёт от первого кадра, прогресс зажат в 0…1 */
   const animateCount = el => {
     const target = Number(el.dataset.count);
+    if (!Number.isFinite(target)) return;
     if (reduced) { el.textContent = String(target); return; }
-    const start = performance.now(), duration = 1100;
-    const tick = now => {
-      const p = Math.min(1, (now - start) / duration);
+    const duration = 1100;
+    let zero;
+    const tick = ts => {
+      if (zero === undefined) zero = ts;
+      const p = Math.max(0, Math.min(1, (ts - zero) / duration));
       el.textContent = String(Math.round(target * (1 - Math.pow(1 - p, 3))));
       if (p < 1) requestAnimationFrame(tick);
+      else el.textContent = String(target);
     };
     requestAnimationFrame(tick);
   };
@@ -45,13 +49,25 @@
   }, { threshold: 0.6 });
   $$('[data-count]').forEach(el => counterObs.observe(el));
 
-  /* лёгкий параллакс карточек первого экрана */
-  const floats = $$('[data-speed]');
+  /* параллакс карточек — ИСПРАВЛЕНО: исходный наклон сохраняется */
+  const floats = $$('[data-speed]').map(el => {
+    let angle = 0;
+    try {
+      const t = getComputedStyle(el).transform;
+      if (t && t !== 'none') {
+        const m = new DOMMatrixReadOnly(t);
+        angle = Math.atan2(m.b, m.a) * 180 / Math.PI;
+      }
+    } catch (_) { angle = 0; }
+    return { el, speed: Number(el.dataset.speed) || 0, angle };
+  });
   if (!reduced && floats.length) {
     let ticking = false;
     const move = () => {
       const y = window.scrollY;
-      floats.forEach(el => { el.style.transform = `translateY(${y * Number(el.dataset.speed)}px)`; });
+      floats.forEach(f => {
+        f.el.style.transform = `translateY(${(y * f.speed).toFixed(2)}px) rotate(${f.angle.toFixed(2)}deg)`;
+      });
       ticking = false;
     };
     window.addEventListener('scroll', () => {
